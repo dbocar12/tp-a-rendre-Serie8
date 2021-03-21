@@ -2,6 +2,9 @@ package org.hakimbocar.exo18;
 import org.hakimbocar.exo17.PersonInputStream;
 import org.hakimbocar.exo17.PersonOutputStream;
 import org.hakimbocar.model.Person;
+
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
@@ -32,13 +35,15 @@ public class exo18 {
          */
         String fileName = "files/exo18Persons.bin";
 
-        try (PersonOutputStream personOutputStream1 = new PersonOutputStream(fileName)) {
+        try (PersonOutputStream personOutputStream1 = new PersonOutputStream(new FileOutputStream(fileName))) {
             personOutputStream1.writePeople(persons);
         } catch (IOException e) {
             e.printStackTrace();
         }
+
+
         System.out.println("========================================");
-        try (PersonInputStream personInputStream1 = new PersonInputStream(fileName)) {
+       try (PersonInputStream personInputStream1 = new PersonInputStream(new FileInputStream(fileName))) {
             List<Person> people = personInputStream1.readPeople();
             System.out.println("Print the people list:");
             people.forEach(System.out::println);

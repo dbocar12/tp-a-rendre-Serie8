@@ -8,21 +8,22 @@ import java.util.Collections;
 import java.util.List;
 
 public class PersonInputStream extends FileInputStream {
-    String name;
-    public PersonInputStream(String name) throws FileNotFoundException {
-        super(name);
-        this.name = name;
+    private FileInputStream fis;
+
+    public PersonInputStream(FileInputStream fis) {
+        super(FileDescriptor.in);
+        this.fis = fis;
     }
 
-   public List<Person> readFields() {
-       File file = new File(this.name);
 
-        try (FileInputStream fis = new FileInputStream(file);
+
+   public List<Person> readFields() {
+        try (FileInputStream fis = this.fis;
              InputStream is = new ByteArrayInputStream(fis.readAllBytes());
              DataInputStream dis = new DataInputStream(is)){
 
             List<Person> people = new ArrayList<>();
-            int  size= dis.readInt();
+            final int  size= dis.readInt();
             for (int i = 0;i<size;i++) {
                 people.add(new Person(dis.readUTF(),dis.readUTF(),dis.readInt()));
             }
@@ -33,10 +34,10 @@ public class PersonInputStream extends FileInputStream {
 
         return Collections.emptyList();
    }
-    public List<Person> readPeople() {
 
-        File file = new File(this.name);
-        try (InputStream is = new FileInputStream(file);
+    public List<Person> readPeople(){
+
+        try (InputStream is = this.fis;
              ObjectInputStream ois = new ObjectInputStream(is)) {
 
             @SuppressWarnings("unchecked")

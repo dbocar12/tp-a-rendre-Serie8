@@ -55,15 +55,17 @@ public class exo17 {
                 new Person("Ariane","Jackson",22)
                 );
 
-        try (PersonOutputStream personOutput = new PersonOutputStream(fileName)) {
+
+        try (PersonOutputStream personOutput = new PersonOutputStream(new FileOutputStream(fileName))) {
             personOutput.writeFields(people);
         }
-        List<Person> people1;
-        System.out.println("===============================================");
-        try (PersonInputStream personInput = new PersonInputStream(fileName)) {
+
+
+        try (PersonInputStream personInput = new PersonInputStream(new FileInputStream(fileName))) {
+            List<Person> people1;
             people1 = personInput.readFields();
+            people1.forEach(System.out::println);
         }
-        people1.forEach(System.out::println);
 
     }
 

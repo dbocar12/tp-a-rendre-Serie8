@@ -3,9 +3,9 @@ package org.hakimbocar.model;
 import java.io.Serializable;
 
 public class Person implements Serializable {
-    private String firstName;
-    private String lastName;
-    private int age;
+    private  String firstName;
+    private  String lastName;
+    private  int age;
 
     public Person() {
 

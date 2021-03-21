@@ -6,19 +6,18 @@ import java.io.*;
 import java.util.List;
 
 public class PersonOutputStream extends FileOutputStream {
+    private FileOutputStream fos;
 
-    String name;
-    public PersonOutputStream(String name) throws FileNotFoundException {
-        super(name);
-        this.name = name;
+    public PersonOutputStream(FileOutputStream fos) {
+        super(FileDescriptor.in);
+        this.fos = fos;
     }
 
     public void writeFields(List<Person> people) {
 
-        File file = new File(this.name);
         int size = people.size();
 
-        try (FileOutputStream fos = new FileOutputStream(file);
+        try (FileOutputStream fos = this.fos;
              DataOutputStream dos = new DataOutputStream(fos)) {
 
             dos.writeInt(size); // write the size first
@@ -33,8 +32,7 @@ public class PersonOutputStream extends FileOutputStream {
 
     public  void writePeople(List<Person> people) {
 
-        File file = new File(this.name);
-        try (OutputStream os = new FileOutputStream(file);
+        try (OutputStream os = this.fos;
              ObjectOutputStream oos = new ObjectOutputStream(os)) {
 
             oos.writeObject(people);
