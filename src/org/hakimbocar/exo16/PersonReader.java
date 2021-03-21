@@ -47,7 +47,7 @@ class PersonReader extends exo16 {
                         try {
                             return Stream.of(lineToPerson.apply(lineToP));
                         } catch (Exception e) {
-                            e.printStackTrace();
+                            //e.printStackTrace();
                         }
                         return Stream.empty();
                     })
